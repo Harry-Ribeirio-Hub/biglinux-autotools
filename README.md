@@ -26,11 +26,15 @@ Os scripts utilizam a biblioteca nativa `subprocess` do Python para interagir di
 
 ## 🚀 Como Baixar e Executar
 
-Abra o seu terminal e siga os passos abaixo:
+Abra o seu terminal e execute os passos abaixo (um comando de cada vez):
 
 ### 1. Clonar o repositório e acessar a pasta
 ```bash
 git clone https://github.com/Harry-Ribeiro-Hub/biglinux-autotools.git
+
+```
+
+```bash
 cd biglinux-autotools
 
 ```
