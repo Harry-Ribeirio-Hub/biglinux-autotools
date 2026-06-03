@@ -35,13 +35,20 @@ def instalar_pacotes():
         "python-requests",
         "zapzap",
         "qbittorrent",
-        "qbittorrent-nox"
+        "qbittorrent-nox",
+        
+        # --- OBS Studio e Plugins adicionados aqui ---
+        "obs-studio",
+        "obs-pipewire-audio-capture",
+        "obs-vkcapture",
+        "obs-gstreamer",
+        "obs-backgroundremoval"
     ]
 
     print("==================================================")
     print("    INICIANDO INSTALAÇÃO DOS SEUS APLICATIVOS     ")
     print("==================================================")
-    print(f"tualizando base de dados e instalando {len(pacotes)} pacotes...")
+    print(f"Atualizando base de dados e instalando {len(pacotes)} pacotes...")
 
     try:
         comando = ["pamac", "install", "--no-confirm"] + pacotes
@@ -113,7 +120,7 @@ def finalizar_e_reiniciar():
 def main():
     verificar_root()
     instalar_pacotes()
-    configurar_zapzap_ptbr()  # Nova função adicionada aqui
+    configurar_zapzap_ptbr()
     finalizar_e_reiniciar()
 
 if __name__ == "__main__":
