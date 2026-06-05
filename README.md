@@ -76,4 +76,4 @@ Agradeço à maravilhosa comunidade do **BigLinux** e aos desenvolvedores por cr
 Se você tiver dúvidas, sugestões de melhoria ou quiser trocar uma ideia sobre desenvolvimento e Linux, pode me encontrar em:
 
 * **E-mail:** harry.ribeiro.dev@gmail.com
-* **Instagram:** [@hazzy.dev](https://www.instagram.com/hazzy.dev?igsh=MTcwNXk1cjd0cjNrNw==)
+* **LinkTree:** [CLICK AQUI](linktr.ee/harry.ribeiro.dev)
