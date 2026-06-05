@@ -8,16 +8,18 @@ AZUL='\033[1;34m'
 NC='\033[0m' # Sem cor
 
 # --- Variáveis Globais ---
-REAL_USER=${SUDO_USER:-$(logname)}
-HOME_DIR=$(eval echo ~"$REAL_USER")
+# Como não usamos mais sudo no script todo, o usuário é simplesmente o $USER atual
+HOME_DIR="$HOME"
 HIDDEN_DIR="$HOME_DIR/.python_master"
 VENV_DIR="$HIDDEN_DIR/venv"
 VENV_PIP="$VENV_DIR/bin/pip"
 
-verificar_root() {
-    if [ "$EUID" -ne 0 ]; then
-        echo -e "${VERMELHO}Erro: Este script precisa de privilégios administrativos.${NC}"
-        echo -e "Execute novamente usando: ${AMARELO}sudo ./setup.sh${NC}\n"
+verificar_nao_root() {
+    # Garante que o usuário não rode o script com sudo
+    if [ "$EUID" -eq 0 ]; then
+        echo -e "${VERMELHO}[❌] Erro: Não execute este script com 'sudo'!${NC}"
+        echo -e "Execute apenas como usuário normal: ${AMARELO}./setup.sh${NC}"
+        echo -e "O script pedirá sua senha automaticamente quando for necessário.\n"
         exit 1
     fi
 }
@@ -27,7 +29,6 @@ instalar_pacotes() {
     echo -e "${VERDE}    INICIANDO INSTALAÇÃO DE PACOTES VIA PAMAC     ${NC}"
     echo -e "${AZUL}==================================================${NC}"
 
-    # Lista consolidada (Apps + OBS + Python OS)
     PACOTES=(
         # Aplicativos Originais
         "7zip" "ark" "btop" "dolphin" "dolphin-plugins" "fastfetch"
@@ -60,7 +61,8 @@ instalar_pacotes() {
 
     echo "Atualizando base de dados e instalando ${#PACOTES[@]} pacotes..."
     
-    # Executa a instalação. Se falhar parcialmente, o script avisa e continua.
+    # O Pamac rodando como usuário comum cuida do AUR perfeitamente 
+    # e pedirá sua senha na tela automaticamente para as instalações.
     if pamac install --no-confirm "${PACOTES[@]}"; then
         echo -e "${VERDE}\nTodos os pacotes de sistema foram instalados com sucesso!${NC}"
     else
@@ -74,21 +76,16 @@ configurar_ambiente_python() {
     echo -e "${VERDE}    CONFIGURANDO AMBIENTE VIRTUAL PYTHON (PIP)    ${NC}"
     echo -e "${AZUL}==================================================${NC}"
 
-    if [ "$REAL_USER" == "root" ]; then
-        echo -e "${VERMELHO}Aviso: Não foi possível determinar o usuário real. Pulando VENV.${NC}"
-        return
-    fi
-
-    # Cria diretório oculto diretamente como o usuário real (mais seguro que root + chown)
-    sudo -u "$REAL_USER" mkdir -p "$HIDDEN_DIR"
+    # Como o script não é root, essas pastas são criadas com segurança sendo suas
+    mkdir -p "$HIDDEN_DIR"
 
     if [ ! -d "$VENV_DIR" ]; then
         echo "Criando ambiente virtual isolado em $VENV_DIR..."
-        sudo -u "$REAL_USER" python3 -m venv "$VENV_DIR"
+        python3 -m venv "$VENV_DIR"
     fi
 
     echo "Atualizando PIP, Setuptools e Wheel..."
-    sudo -u "$REAL_USER" "$VENV_PIP" install --upgrade pip setuptools wheel > /dev/null 2>&1
+    "$VENV_PIP" install --upgrade pip setuptools wheel > /dev/null 2>&1
 
     PIP_PKGS=(
         "pytmx" "arcade" "moviepy" "dearpygui" "customtkinter"
@@ -99,7 +96,7 @@ configurar_ambiente_python() {
     echo "Instalando ${#PIP_PKGS[@]} bibliotecas Python adicionais..."
     for pkg in "${PIP_PKGS[@]}"; do
         echo " -> Instalando $pkg..."
-        sudo -u "$REAL_USER" "$VENV_PIP" install "$pkg" > /dev/null 2>&1
+        "$VENV_PIP" install "$pkg" > /dev/null 2>&1
     done
 
     echo -e "\n${VERDE}[SUCESSO] Ambiente Python Master criado!${NC}"
@@ -114,10 +111,11 @@ configurar_zapzap_ptbr() {
     ATALHO_FLATPAK="/var/lib/flatpak/exports/share/applications/com.rtmrosario.zapzap.desktop"
     CONFIGURADO=0
 
+    # Usamos sudo aqui, pois arquivos do sistema exigem permissão de root para serem editados
     for caminho in "$ATALHO_SISTEMA" "$ATALHO_FLATPAK"; do
         if [ -f "$caminho" ]; then
-            sed -i 's/Exec=zapzap/Exec=env LANG=pt_BR.UTF-8 zapzap/g' "$caminho" 2>/dev/null
-            sed -i 's/Exec=flatpak run com.rtmrosario.zapzap/Exec=env LANG=pt_BR.UTF-8 flatpak run com.rtmrosario.zapzap/g' "$caminho" 2>/dev/null
+            sudo sed -i 's/Exec=zapzap/Exec=env LANG=pt_BR.UTF-8 zapzap/g' "$caminho" 2>/dev/null
+            sudo sed -i 's/Exec=flatpak run com.rtmrosario.zapzap/Exec=env LANG=pt_BR.UTF-8 flatpak run com.rtmrosario.zapzap/g' "$caminho" 2>/dev/null
             CONFIGURADO=1
         fi
     done
@@ -127,7 +125,7 @@ configurar_zapzap_ptbr() {
     else
         echo "Aplicando configuração de idioma via Flatpak global..."
         flatpak override --user --env=LANG=pt_BR.UTF-8 com.rtmrosario.zapzap 2>/dev/null
-        flatpak override --system --env=LANG=pt_BR.UTF-8 com.rtmrosario.zapzap 2>/dev/null
+        sudo flatpak override --system --env=LANG=pt_BR.UTF-8 com.rtmrosario.zapzap 2>/dev/null
         echo -e "${VERDE}ZapZap configurado via overrides do Flatpak.${NC}"
     fi
 }
@@ -152,11 +150,12 @@ finalizar_e_reiniciar() {
     done
     
     echo -e "\n\nReiniciando agora..."
-    reboot
+    # Necessário sudo para garantir o reboot instantâneo
+    sudo reboot
 }
 
 # --- Fluxo Principal ---
-verificar_root
+verificar_nao_root
 instalar_pacotes
 configurar_ambiente_python
 configurar_zapzap_ptbr
