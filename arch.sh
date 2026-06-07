@@ -115,12 +115,17 @@ instalar_pacotes() {
         "smplayer" "smplayer-themes" "smplayer-skins" "yt-dlp"
     )
 
+    APPS_WEB=(
+        "webapp-manager" "chromium"
+    )
+
     APPS_OBS=(
         "obs-studio" "obs-backgroundremoval" "obs-gstreamer" "obs-vkcapture"
     )
 
     instalar_grupo "Aplicativos Gerais" "${APPS_GERAIS[@]}"
     instalar_grupo "Multimídia (Strawberry e SMPlayer)" "${APPS_MULTIMIDIA[@]}"
+    instalar_grupo "Gerenciador de Web Apps" "${APPS_WEB[@]}"
     instalar_grupo "OBS Studio e Plugins" "${APPS_OBS[@]}"
 
     if [ "$INSTALAR_PYTHON" == "s" ]; then
