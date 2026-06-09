@@ -1,1 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigLinux Autotools - Automação para BigLinux</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background-color: #f5f7fa;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .content {
+            padding: 2.5rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #0f172a;
+            margin-bottom: 1rem;
+            border-left: 5px solid #3b82f6;
+            padding-left: 1rem;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: #1e293b;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: #334155;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #334155;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #e11d48;
+        }
+
+        pre {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1.2rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+            font-size: 0.9rem;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+            color: #334155;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        .note {
+            background: #fef9c3;
+            border-left: 4px solid #eab308;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.2rem 0;
+        }
+
+        .warning {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.2rem 0;
+        }
+
+        hr {
+            margin: 2rem 0;
+            border: none;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        a {
+            color: #3b82f6;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        a:hover {
+            border-bottom-color: #3b82f6;
+        }
+
+        .footer {
+            background: #f8fafc;
+            padding: 1.5rem;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .content {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>🐧 BIGLINUX-AUTOTOOLS</h1>
+            <p>Conjunto de scripts em Shell (Bash) desenvolvidos para automatizar o pós-instalação e a manutenção periódica do sistema operacional BigLinux.</p>
+
+            <hr>
+
+            <h2>📋 Sobre o Projeto</h2>
+            <p>O <strong>biglinux-autotools</strong> nasceu da necessidade de evitar tarefas repetitivas ao configurar o sistema após uma formatação e ao realizar a manutenção do dia a dia. Com este projeto, você centraliza a instalação de programas essenciais e a limpeza profunda do sistema com apenas um comando no terminal.</p>
+
+            <p>O repositório é composto por dois scripts principais:</p>
+            <ul>
+                <li><strong><code>setup.sh</code></strong>: Focado no pós-instalação. Ele baixa seus aplicativos favoritos (incluindo o OBS Studio e plugins, navegadores e utilitários), configura automaticamente um ambiente virtual seguro para bibliotecas Python, ajusta configurações regionais do ZapZap para PT-BR, <strong>gera um relatório detalhado de instalação</strong> e reinicia o computador.</li>
+                <li><strong><code>manutencao.sh</code></strong>: Focado na manutenção frequente. Ele sincroniza os repositórios oficiais, atualiza pacotes do AUR/Flatpak e elimina arquivos e caches inúteis.</li>
+            </ul>
+
+            <h2>🛠️ Explicação Técnica Simplificada</h2>
+            <p>Os scripts foram otimizados para <strong>Shell Script puro</strong>, garantindo execução instantânea e integração nativa com o sistema operacional, seguindo as melhores práticas de segurança do Linux:</p>
+            <ul>
+                <li><strong>Princípio do Menor Privilégio</strong>: <strong>Nenhum dos scripts deve ser iniciado como root (<code>sudo</code>)</strong>. Eles são executados como usuário comum, impedindo que pastas pessoais sejam criadas incorretamente, e solicitam a senha automaticamente apenas nos comandos que exigem alteração no sistema.</li>
+                <li><strong>Tolerância a Falhas e Relatórios</strong>: Durante a instalação, se um pacote específico (como do AUR) falhar, o script não cancela o resto. Ele entra em modo de segurança individual e, ao final, gera um arquivo <code>Resumo_Instalacao.md</code> na pasta principal do usuário com todo o histórico de sucessos e falhas.</li>
+                <li><strong>Gerenciamento Híbrido de Pacotes</strong>: O script utiliza o <code>pamac</code> (gerenciador nativo do BigLinux) por ser capaz de lidar tanto com os repositórios oficiais da base Arch quanto com o <strong>AUR</strong> (Arch User Repository) de forma automatizada e sem bloqueios de segurança.</li>
+                <li><strong>Tratamento de Strings e Arquivos</strong>: O script localiza e modifica arquivos de configuração <code>.desktop</code> do sistema (utilizando ferramentas nativas como <code>sed</code>) e aplica overrides de ambiente para forçar o idioma <code>LANG=pt_BR.UTF-8</code>, garantindo correções de interface de forma transparente.</li>
+            </ul>
+
+            <h2>🚀 Como Baixar e Executar</h2>
+            <p>Abra o seu terminal e siga os passos abaixo:</p>
+
+            <h3>1. Clonar o repositório e acessar a pasta</h3>
+            <pre><code>git clone https://github.com/Harry-Ribeirio-Hub/biglinux-autotools.git
+cd biglinux-autotools</code></pre>
+
+            <h3>2. Executar o Instalador (<code>setup.sh</code>)</h3>
+            <div class="note">
+                <strong>📌 Nota:</strong> Use este comando apenas após formatar o sistema, pois ele instalará dezenas de pacotes e reiniciará a máquina ao final.
+            </div>
+            <p>Dê permissão de execução e rode o script <strong>sem sudo</strong>:</p>
+            <pre><code>chmod +x setup.sh
+./setup.sh</code></pre>
+
+            <h3>3. Executar o Faxineiro (<code>manutencao.sh</code>)</h3>
+            <div class="note">
+                <strong>📌 Nota:</strong> Use este comando no seu dia a dia (semanalmente ou a cada 15 dias) para manter o sistema limpo, leve e atualizado.
+            </div>
+            <p>Dê permissão de execução e rode o script <strong>sem sudo</strong>:</p>
+            <pre><code>chmod +x manutencao.sh
+./manutencao.sh</code></pre>
+
+            <h2>🤝 Agradecimentos</h2>
+            <p>Agradeço à maravilhosa comunidade do <strong>BigLinux</strong> e aos desenvolvedores por criarem uma distribuição tão robusta, rápida e simplificada, que abre espaço para que os usuários possam criar e rodar suas próprias ferramentas de automação com facilidade.</p>
+
+            <h2>📬 Contato</h2>
+            <p>Se você tiver dúvidas, sugestões de melhoria, uma versão de setup personalizada ou apenas quiser trocar uma ideia sobre desenvolvimento e Linux, pode me encontrar em:</p>
+            <ul>
+                <li><strong>E-mail:</strong> <a href="mailto:harry.ribeiro.dev@gmail.com">harry.ribeiro.dev@gmail.com</a></li>
+                <li><strong>LinkTree:</strong> <a href="https://linktr.ee/harry.ribeiro.dev" target="_blank" rel="noopener noreferrer">CLICK AQUI</a></li>
+            </ul>
+        </div>
+        <div class="footer">
+            BigLinux Autotools - Automação inteligente para o seu sistema
+        </div>
+    </div>
+</body>
+</html>
