@@ -1,6 +1,6 @@
 
 
-# BIGLINUX-AUTOTOOLS
+# [BIGLINUX-AUTOTOOLS](https://github.com/harry0harry/biglinux-autotools/)
 
 Conjunto de scripts em Shell (Bash) desenvolvidos para automatizar o pós-instalação e a manutenção periódica do sistema operacional BigLinux.
 
@@ -76,4 +76,4 @@ Agradeço à maravilhosa comunidade do **BigLinux** e aos desenvolvedores por cr
 Se você tiver dúvidas, sugestões de melhoria, uma versão de setup personalizada ou apenas quiser trocar uma ideia sobre desenvolvimento e Linux, pode me encontrar em:
 
 * **E-mail:** harry.ribeiro.dev@gmail.com
-* **LinkTree:** [CLICK AQUI](https://linktr.ee/harry.ribeiro.dev)
+* **LinkTree:** [CLICK AQUI](https://harry0harry.github.io/my-links/)
